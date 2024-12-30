@@ -34,25 +34,39 @@ const ProductCard = ({ product }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleDeleteProduct = async (pid) => {
-		const { success, message } = await deleteProduct(pid);
-		if (!success) {
+		// Step 1: Ask for confirmation before proceeding with deletion
+		const userConfirmed = window.confirm("Are you sure you want to delete this product? This action cannot be undone.");
+	
+		if (!userConfirmed) {
+			// If user cancels, exit the function
+			return;
+		}
+	
+		try {
+			// Step 2: Proceed with deletion if user confirms
+			const { success, message } = await deleteProduct(pid);
+	
+			// Step 3: Show appropriate toast based on the success status
 			toast({
-				title: "Error",
-				description: message,
-				status: "error",
+				title: success ? "Deleted Successfully" : "Error",
+				description: message || (success ? "The product has been deleted successfully." : "Failed to delete the product."),
+				status: success ? "success" : "error",
 				duration: 3000,
 				isClosable: true,
 			});
-		} else {
+		} catch (error) {
+			// Step 4: Handle unexpected errors and show a generic error message
+			console.error("Error deleting product:", error);
 			toast({
-				title: "Success",
-				description: message,
-				status: "success",
+				title: "Error",
+				description: "An unexpected error occurred. Please try again later.",
+				status: "error",
 				duration: 3000,
 				isClosable: true,
 			});
 		}
 	};
+	
 
 	const handleUpdateProduct = async (pid, updatedProduct) => {
 		const { success, message } = await updateProduct(pid, updatedProduct);
