@@ -13,13 +13,13 @@ export const getProducts = async (req, res) => {
 };
 
 
-  export const createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
 	const { name, price } = req.body;
-	const image = req.file ? req.file.path : null; // Access the file path from multer
+	const image = req.file ? `/images/${req.file.filename}` : null; // Relative path for frontend
   
 	if (!name || !price || !image) {
-		console.error("Missing fields:", { name, price, image });
-		return res.status(400).json({ success: false, message: "Please provide all fields" });
+	  console.error("Missing fields:", { name, price, image });
+	  return res.status(400).json({ success: false, message: "Please provide all fields" });
 	}
   
 	const newProduct = new Product({ name, price, image });

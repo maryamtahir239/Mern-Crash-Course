@@ -92,15 +92,22 @@ const ProductCard = ({ product }) => {
 
 	return (
 		<Box
-			shadow='lg'
-			rounded='lg'
-			overflow='hidden'
-			transition='all 0.3s'
-			_hover={{ transform: "translateY(-5px)", shadow: "xl" }}
-			bg={bg}
-		>
-			<Image src={product.image} alt={product.name} h={48} w='full' objectFit='cover' />
-
+  shadow="lg"
+  rounded="lg"
+  overflow="hidden"
+  transition="all 0.3s"
+  _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
+  bg={bg}
+>
+<Image
+  src={`http://localhost:5000${product.image}`}
+  alt={product.name}
+  h="200px" 
+  w="100%" 
+  objectFit="contain" 
+  display="block" 
+  bg="gray.50" 
+/>
 			<Box p={4}>
 				<Heading as='h3' size='md' mb={2}>
 					{product.name}
